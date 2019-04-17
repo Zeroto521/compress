@@ -16,7 +16,7 @@
 
 ## Example
 
-```bash
+```python
 >>> from compress import compress
 # Guess you have `data` which the shape is `(n, m)` and one column `labels` which the shape is `(n, 1)`.
 # Then let use the `compress` to compress the data.
