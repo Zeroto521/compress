@@ -1,6 +1,26 @@
 # -*- coding: utf-8 -*-
+"""
+Compress
+=====
+The extreme value is obtained at the interval endpoint for convex function,
+and therefore the endpoint degree of a sample is measured by making
+the unstable cuts of all attributes according to the basic property.
+
+Example
+----------------------------
+    >>> from compress import compress
+Guess you have `data` which the shape is `(n, m)` and one column `labels` which the shape is `(n, 1)`.
+Then let use the `compress` to compress the data.
+    >>> data_new = compress(data, labels, k=0)  # k is the threshold to compress data
+    >>> data_new
+
+Copyright Zeroto521
+----------------------------
+"""
 
 import numpy as np
+
+__version__ = '0.1.0'
 
 
 def _is_equal(a, b):
@@ -85,7 +105,7 @@ def _deal_with_column(column, labels):
 
 
 def compress(data, labels, k=0):
-    """The extreme value is obtained at the interval endpoint for convex function,and therefore the endpoint degree of a sample is measured by making the unstable cuts of all attributes according to the basic property.
+    """main function
 
     Arguments:
         data {np.ndarray} -- data set
