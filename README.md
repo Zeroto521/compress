@@ -1,6 +1,8 @@
-# compress
+# Compress
 
 > The extreme value is obtained at the interval endpoint for convex function, and therefore the endpoint degree of a sample is measured by making the unstable cuts of all attributes according to the basic property.
+
+[![Build Status](https://travis-ci.com/Zeroto521/compress.svg?branch=master)](https://travis-ci.com/Zeroto521/compress)
 
 ## Prerequisites
 
@@ -24,7 +26,7 @@
 >>> data_new
 ```
 
-> More details for `test.py` and `compress.py`.
+> More details for [test.py](test.py) and [compress.py](compress.py).
 
 ## License
 
