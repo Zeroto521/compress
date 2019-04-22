@@ -2,27 +2,28 @@
 
 from sklearn.datasets import load_iris
 
-from compress import compress
+from compress import Compression
 
-# load iris data set
+# load data set
 iris = load_iris()
 data = iris.data
 labels = iris.target
 
-# next let compress the data
+# first we create the Class
+cp = Compression(data, labels)
+# than use it to fit the model
+cp.fit()
 
-# k = 0
-data_new = compress(data, labels, k=0)  # k defalut is 0
+# k defalut is 0
+data_new = cp.compress(k=0)
 length, length_new = len(data), len(data_new)
 print("old : new = {} : {}".format(length, length_new))
 
-# k = 1
-data_new = compress(data, labels, k=1)
+data_new = cp.compress(k=1)
 length, length_new = len(data), len(data_new)
 print("old : new = {} : {}".format(length, length_new))
 
-# k = 1
-data_new = compress(data, labels, k=2)
+data_new = cp.compress(k=2)
 length, length_new = len(data), len(data_new)
 print("old : new = {} : {}".format(length, length_new))
 

@@ -8,11 +8,11 @@ the unstable cuts of all attributes according to the basic property.
 
 Example
 ----------------------------
-    >>> from compress import compress
-Guess you have `data` which the shape is `(n, m)` and one column `labels` which the shape is `(n, 1)`.
-Then let use the `compress` to compress the data.
-    >>> data_new = compress(data, labels, k=0)  # k is the threshold to compress data
-    >>> data_new
+    >>> from compress import Compression
+    >>> cp = Compression(data, labels)  # Guess you have `data` which the shape is `(n, m)` and one column `labels` which the shape is `(n, 1)`.
+    >>> cp.fit()  # Then use `fit()` function to fit model with data
+    >>> data_new = compress(data, labels, k=0) # Then let use the `compress` to compress the data. `k` is the threshold to compress data
+    >>> data_new  # just show it
 
 Copyright Zeroto521
 ----------------------------
@@ -20,104 +20,142 @@ Copyright Zeroto521
 
 import numpy as np
 
-__version__ = '0.1.0'
+
+__version__ = '0.1.1'
+__license__ = 'MIT'
+__short_description__ = 'Compress data help for big data & unbalanced data classification.'
 
 
-def _is_equal(a, b):
-    """Compare two values is equal or not
+class Compression():
 
-    Returns:
-        bool
-    """
+    def __init__(self, data, labels):
+        """Compress data help for big data & unbalanced data classification.
 
-    flag = False
-    if a == b:
-        flag = True
-    return flag
+        Compress
+        =====
+        The extreme value is obtained at the interval endpoint for convex function,
+        and therefore the endpoint degree of a sample is measured by making
+        the unstable cuts of all attributes according to the basic property.
 
+        Example
+        ----------------------------
+            >>> from compress import Compression
+            >>> cp = Compression(data, labels)  # Guess you have `data` which the shape is `(n, m)` and one column `labels` which the shape is `(n, 1)`.
+            >>> cp.fit()  # Then use `fit()` function to fit model with data
+            >>> data_new = compress(data, labels, k=0) # Then let use the `compress` to compress the data. `k` is the threshold to compress data
+            >>> data_new  # just show it
 
-def _neighbors(index, length):
-    """Get neighbors from a array's index
+        Arguments
+        ----------------------------
+            data {np.ndarray} -- data set
+            labels {np.ndarray, list} -- the class for data set
+        """
+        self.data = data
+        self.labels = labels
 
-    Arguments:
-        index {int} -- index from a array
-        length {int} -- array's length
+    @property
+    def data_amount(self):
+        """Calculate the amount of data
 
-    Returns:
-        list -- the index list
-    """
+        Returns:
+            int
+        """
+        return len(self.labels)
 
-    if index == 0:
-        neighbor = [index + 1]
-    elif 0 < index < length-1:
-        neighbor = [index - 1, index + 1]
-    elif index == length-1:
-        neighbor = [index - 1]
+    def _is_equal(self, a, b):
+        """Compare two values is equal or not
 
-    return neighbor
+        Returns:
+            bool
+        """
 
+        flag = False
+        if a == b:
+            flag = True
+        return flag
 
-def _check_unbpoint(index, labels):
-    """Judge value is unblanceed point
+    def _neighbors(self, index):
+        """Get neighbors from a array's index
 
-    Arguments:
-        index {int} -- the judged index of the value
-        labels {np.ndarray, list} -- the class for data set
+        Arguments:
+            index {int} -- index from a array
 
-    Returns:
-        int -- 0/1
-    """
+        Returns:
+            list -- the index list
+        """
 
-    index = index[0]
-    value = labels[index]
-    neighbors = _neighbors(index, len(labels))
+        if index == 0:
+            neighbor = [index + 1]
+        elif 0 < index < self.data_amount-1:
+            neighbor = [index - 1, index + 1]
+        elif index == self.data_amount-1:
+            neighbor = [index - 1]
 
-    ngb_values = [labels[i] for i in neighbors]
-    bool_list = [not _is_equal(value, ngb_value) for ngb_value in ngb_values]
+        return neighbor
 
-    flag = 0
-    if any(bool_list):
-        flag = 1
+    def _check_unbpoint(self, index, labels):
+        """Judge value is unblanceed point
 
-    return flag
+        Arguments:
+            index {int} -- the judged index of the value
+            labels {np.ndarray, list} -- the class for data set
 
+        Returns:
+            int -- 0/1
+        """
 
-def _deal_with_column(column, labels):
-    """Judge one column (attribute) unblance point
+        index = index[0]
+        value = labels[index]
+        neighbors = self._neighbors(index)
 
-    Arguments:
-        column {np.ndarray} -- one column for a date set
-        labels {np.ndarray, list} -- the class for data set
+        ngb_values = [labels[i] for i in neighbors]
+        bool_list = [not self._is_equal(value, ngb_value)
+                     for ngb_value in ngb_values]
 
-    Returns:
-        np.ndarray
-    """
+        flag = 0
+        if any(bool_list):
+            flag = 1
 
-    index = np.arange(len(column))
-    array = np.stack([index, column, labels], axis=1)  # combine to one array
-    array = array[np.argsort(array[:, 1])]  # sort by attribute
-    index = index.reshape((len(column), -1))
-    array[:, 1] = np.apply_along_axis(
-        _check_unbpoint, 1, index, labels=array[:, -1])
-    array = array[np.argsort(array[:, 0])]  # sort to old place
+        return flag
 
-    return array[:, 1]
+    def _deal_with_column(self, column):
+        """Judge one column (attribute) unblance point
 
+        Arguments:
+            column {np.ndarray} -- one column for a date set
+            labels {np.ndarray, list} -- the class for data set
 
-def compress(data, labels, k=0):
-    """main function
+        Returns:
+            np.ndarray
+        """
 
-    Arguments:
-        data {np.ndarray} -- data set
-        labels {np.ndarray, list} -- the class for data set
+        index = np.arange(len(column))
+        # combine to one array
+        array = np.stack([index, column, self.labels], axis=1)
+        array = array[np.argsort(array[:, 1])]  # sort by attribute
+        index = index.reshape(self.data_amount, -1)
 
-    Keyword Arguments:
-        k {int} -- the threshold value to cut data (default: {0})
+        array[:, 1] = np.apply_along_axis(
+            self._check_unbpoint, 1, index, labels=array[:, -1])
+        array = array[np.argsort(array[:, 0])]  # sort to old place
 
-    Returns:
-        np.ndarray
-    """
+        return array[:, 1]
 
-    I = np.apply_along_axis(_deal_with_column, 0, data, labels=labels)
-    K = I.sum(axis=1)
-    return data[K > k]
+    def fit(self):
+        """Fit the model using `data` and `labels`
+        """
+
+        self.I = np.apply_along_axis(self._deal_with_column, 0, self.data)
+        self.K = self.I.sum(axis=1)
+
+    def compress(self, k=0):
+        """main function
+
+        Keyword Arguments:
+            k {int} -- the threshold value to cut data (default: {0})
+
+        Returns:
+            np.ndarray
+        """
+
+        return self.data[self.K > k]

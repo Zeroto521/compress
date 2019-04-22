@@ -6,7 +6,9 @@
 
 ## Prerequisites
 
-`numpy`
+-   `numpy`
+
+> More details for [requirements](requirements.txt) file.
 
 ## Installation
 
@@ -16,17 +18,17 @@
 >>> python setup.py install
 ```
 
-## Example
+## Examples
 
 ```python
->>> from compress import compress
-# Guess you have `data` which the shape is `(n, m)` and one column `labels` which the shape is `(n, 1)`.
-# Then let use the `compress` to compress the data.
->>> data_new = compress(data, labels, k=0)  # k is the threshold to compress data
->>> data_new
+>>> from compress import Compression
+>>> cp = Compression(data, labels)  # Guess you have `data` which the shape is `(n, m)` and one column `labels` which the shape is `(n, 1)`.
+>>> cp.fit()  # Then use `fit()` function to fit model with data
+>>> data_new = compress(data, labels, k=0) # Then let use the `compress` to compress the data. `k` is the threshold to compress data
+>>> data_new  # just show it
 ```
 
-> More details for [test.py](test.py) and [compress.py](compress.py).
+> More details for [examples](examples) folder and [compress.py](compress.py) source code.
 
 ## License
 
