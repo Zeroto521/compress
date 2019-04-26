@@ -10,20 +10,20 @@ data = iris.data
 labels = iris.target
 
 # first we create the Class
-cp = Compression(data, labels)
+model = Compression(data, labels)
 # than use it to fit the model
-cp.fit()
+model.fit()
 
 # k defalut is 0
-data_new = cp.compress(k=0)
+data_new = model.compress(k=0)
 length, length_new = len(data), len(data_new)
 print("old : new = {} : {}".format(length, length_new))
 
-data_new = cp.compress(k=1)
+data_new = model.compress(k=1)
 length, length_new = len(data), len(data_new)
 print("old : new = {} : {}".format(length, length_new))
 
-data_new = cp.compress(k=2)
+data_new = model.compress(k=2)
 length, length_new = len(data), len(data_new)
 print("old : new = {} : {}".format(length, length_new))
 

@@ -9,9 +9,9 @@ the unstable cuts of all attributes according to the basic property.
 Example
 ----------------------------
     >>> from compress import Compression
-    >>> cp = Compression(data, labels)  # Guess you have `data` which the shape is `(n, m)` and one column `labels` which the shape is `(n, 1)`.
-    >>> cp.fit()  # Then use `fit()` function to fit model with data
-    >>> data_new = compress(data, labels, k=0) # Then let use the `compress` to compress the data. `k` is the threshold to compress data
+    >>> model = Compression(data, labels)  # Guess you have `data` which the shape is `(n, m)` and one column `labels` which the shape is `(n, 1)`.
+    >>> model.fit()  # Then use `fit()` function to fit model with data
+    >>> data_new = model.compress(data, labels, k=0)  # Then let use the `compress` to compress the data. `k` is the threshold to compress data
     >>> data_new  # just show it
 
 Copyright Zeroto521
@@ -40,9 +40,9 @@ class Compression():
         Example
         ----------------------------
             >>> from compress import Compression
-            >>> cp = Compression(data, labels)  # Guess you have `data` which the shape is `(n, m)` and one column `labels` which the shape is `(n, 1)`.
-            >>> cp.fit()  # Then use `fit()` function to fit model with data
-            >>> data_new = compress(data, labels, k=0) # Then let use the `compress` to compress the data. `k` is the threshold to compress data
+            >>> model = Compression(data, labels)  # Guess you have `data` which the shape is `(n, m)` and one column `labels` which the shape is `(n, 1)`.
+            >>> model.fit()  # Then use `fit()` function to fit model with data
+            >>> data_new = model.compress(data, labels, k=0)  # Then let use the `compress` to compress the data. `k` is the threshold to compress data
             >>> data_new  # just show it
 
         Arguments
