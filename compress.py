@@ -62,18 +62,6 @@ class Compression():
         """
         return len(self.labels)
 
-    def _is_equal(self, a, b):
-        """Compare two values is equal or not
-
-        Returns:
-            bool
-        """
-
-        flag = False
-        if a == b:
-            flag = True
-        return flag
-
     def _neighbors(self, index):
         """Get neighbors from a array's index
 
@@ -109,13 +97,9 @@ class Compression():
         neighbors = self._neighbors(index)
 
         ngb_values = [labels[i] for i in neighbors]
-        bool_list = [not self._is_equal(value, ngb_value)
-                     for ngb_value in ngb_values]
+        bool_list = [not (value == ngb_value) for ngb_value in ngb_values]
 
-        flag = 0
-        if any(bool_list):
-            flag = 1
-
+        flag = 1 if any(bool_list) else 0
         return flag
 
     def _deal_with_column(self, column):
