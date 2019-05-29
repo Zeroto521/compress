@@ -1,3 +1,4 @@
+sudo: false
 language: python
 python:
     - "2.7"
@@ -10,9 +11,13 @@ before_install:
 
 install:
     - pip install -r requirements.txt
+    - pip install -r requirements-dev.txt
     - pip install sklearn
 
 script:
     - python setup.py install
     - cd examples
-    - python iris.py
+    - coverage run iris.py
+
+after_success:
+    - codecov
