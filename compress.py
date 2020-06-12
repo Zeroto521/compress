@@ -97,10 +97,9 @@ class Compression():
         neighbors = self._neighbors(index)
 
         ngb_values = [labels[i] for i in neighbors]
-        bool_list = [not (value == ngb_value) for ngb_value in ngb_values]
+        bool_list = [value != ngb_value for ngb_value in ngb_values]
 
-        flag = 1 if any(bool_list) else 0
-        return flag
+        return 1 if any(bool_list) else 0
 
     def _deal_with_column(self, column):
         """Judge one column (attribute) unblance point
