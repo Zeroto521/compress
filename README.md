@@ -36,4 +36,4 @@ MIT License. [@Zeroto521](https://github.com/Zeroto521)
 
 ## Reference
 
--   [WANG Xizhao, XING Sheng, ZHAO Shixin. Unstable Cut-Points Based Sample Selection for Large Data Classification[J]. Pattern Recognition and Artificial Intelligence, 2016, 29 (09): 780-789.](https://kns.cnki.net/KCMS/detail/detail.aspx?dbcode=CJFQ&filename=MSSB201609002)
+-   [WANG Xizhao, XING Sheng, ZHAO Shixin. Unstable Cut-Points Based Sample Selection for Large Data Classification[J]. Pattern Recognition and Artificial Intelligence, 2016, 29 (09): 780-789.](http://manu46.magtech.com.cn/Jweb_prai/CN/abstract/abstract11104.shtml)
